@@ -1,0 +1,6 @@
+[submodule "strangescout-frontend"]
+	path = strangescout-frontend
+	url = https://gitlab.com/redalliance/strangescout-frontend.git
+[submodule "strangescout-api"]
+	path = strangescout-api
+	url = https://gitlab.com/redalliance/strangescout-api.git
