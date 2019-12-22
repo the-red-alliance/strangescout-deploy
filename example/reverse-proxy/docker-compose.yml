@@ -1,0 +1,63 @@
+version: '3.3'
+
+services:
+    reverse-proxy:
+        image: traefik:v2.0
+        container_name: reverse-proxy
+        hostname: reverse-proxy
+        restart: always
+        command:
+            # unrestricted access to traefik dash
+            # disable in production
+            - --api.insecure
+
+            # use docker as a provider
+            - --providers.docker
+            # http and https entrypoints
+            - --entrypoints.web.address=:80
+            - --entrypoints.websecure.address=:443
+            # mongodb entrypoint
+            - --entrypoints.mongodb.address=:27017
+
+            # enable logging
+            - --accesslog=true
+
+            # letsencrypt resolver
+            # acme url
+            - --certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+            # your email
+            - --certificatesresolvers.leresolver.acme.email=<youremail@yourdomain.tld>
+            # set file to hold acme certs
+            - --certificatesresolvers.leresolver.acme.storage=/acme.json
+            # use tls challenge
+            - --certificatesresolvers.leresolver.acme.tlschallenge=true
+
+        # expose http, https, dashboard, and mongo ports
+        ports:
+            - '80:80'
+            - '443:443'
+            - '27017:27017'
+            - '8080:8080'
+
+        volumes:
+            # store certs in a file
+            # dont forget to touch and chmod 600 `./acme.json`!
+            - "./acme.json:/acme.json"
+            # docker socket accessible to traefik
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+        networks:
+            - strangescout_main
+
+        labels:
+            # middleware for redirect
+            - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+
+            # global redirect all http to https
+            - traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)
+            - traefik.http.routers.redirs.entrypoints=web
+            - traefik.http.routers.redirs.middlewares=redirect-to-https
+
+networks:
+    strangescout_main:
+        external: true

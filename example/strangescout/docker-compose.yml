@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+    strangescout:
+        # whatever you've tagged the built strangescout image
+        image: strangescout:latest
+        container_name: ss-offseason
+        hostname: ss-offseason
+        environment:
+            # secret used to encrypt jwts
+            - SECRET=<jwt-secret>
+            # uri of the database
+            # <db-password>: password for mongodb set in the mongodb compose file
+            # <dbname>: database name to store data in
+            - "DB_URL=mongodb://root:<db-password>@mongodb-global-database:27017/<dbname>?authSource=admin"
+            # log some extra mongoose info
+            - DB_DEBUG=<true/false>
+            # email for the default admin account
+            - ADMIN_EMAIL=<email@yourdomain.tld>
+            # password for the default admin account
+            - ADMIN_PASSWORD=<supersecretpassword>
+        networks:
+            - strangescout_main
+        labels:
+            # domain we're hosted on
+            - traefik.http.routers.strangescout.rule=Host(`<yourdomain.tld>`)
+            # set router
+            - traefik.http.routers.strangescout.entrypoints=websecure
+            # automatic tls certificates
+            - traefik.http.routers.strangescout.tls.certresolver=leresolver
+
+networks:
+    strangescout_main:
+        external: true
