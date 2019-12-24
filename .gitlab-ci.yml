@@ -1,0 +1,23 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - build
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  IMAGE: redalliance/strangescout
+  IMAGE_TAG: redalliance/strangescout:$CI_COMMIT_TAG
+  LATEST_TAG: redalliance/strangescout:latest
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+build:
+  stage: build
+  script:
+    - docker build -t $IMAGE_TAG .
+    - docker tag $IMAGE_TAG $LATEST_TAG
+    - docker push $IMAGE
