@@ -50,6 +50,9 @@ services:
             - strangescout_main
 
         labels:
+            # enable compression
+            - traefik.httpp.middlewares.compress.compress=true
+
             # middleware for redirect
             - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
 

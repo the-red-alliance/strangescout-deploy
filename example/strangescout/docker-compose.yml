@@ -28,6 +28,8 @@ services:
             - traefik.http.routers.strangescout.entrypoints=websecure
             # automatic tls certificates
             - traefik.http.routers.strangescout.tls.certresolver=leresolver
+            # enable compression
+            - traefik.http.routers.strangescout.middlewares=compress
 
 networks:
     strangescout_main:
