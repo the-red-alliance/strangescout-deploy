@@ -6,6 +6,8 @@ services:
         image: strangescout:latest
         container_name: ss-offseason
         hostname: ss-offseason
+        restart: always
+        
         environment:
             # secret used to encrypt jwts
             - SECRET=<jwt-secret>

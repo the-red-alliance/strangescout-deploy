@@ -41,7 +41,7 @@ services:
 
         volumes:
             # store certs in a file
-            # dont forget to touch and chmod 600 `./acme.json`!
+            # don't forget to touch and chmod 600 `./acme.json`!
             - "./acme.json:/acme.json"
             # docker socket accessible to traefik
             - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -51,7 +51,7 @@ services:
 
         labels:
             # enable compression
-            - traefik.httpp.middlewares.compress.compress=true
+            - traefik.http.middlewares.compress.compress=true
 
             # middleware for redirect
             - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
