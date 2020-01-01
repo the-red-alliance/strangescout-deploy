@@ -3,7 +3,7 @@ version: '3.3'
 services:
     strangescout:
         # whatever you've tagged the built strangescout image
-        image: strangescout:latest
+        image: theredalliance/strangescout:latest
         container_name: ss-offseason
         hostname: ss-offseason
         restart: always
