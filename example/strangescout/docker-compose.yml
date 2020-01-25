@@ -21,6 +21,8 @@ services:
             - ADMIN_EMAIL=<email@yourdomain.tld>
             # password for the default admin account
             - ADMIN_PASSWORD=<supersecretpassword>
+            # TBA_HMAC key
+            - TBA_HMAC=<tba_hmac_key>
         volumes:
             - ./template.yml:/template.yml
         networks:
