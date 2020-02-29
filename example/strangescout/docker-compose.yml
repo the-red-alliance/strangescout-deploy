@@ -26,6 +26,7 @@ services:
             - TBA_HMAC=<tba_hmac_key>
         volumes:
             - ./template.yml:/template.yml
+            - ./field.png:/field
         networks:
             - strangescout_main
         labels:
