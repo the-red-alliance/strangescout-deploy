@@ -22,8 +22,8 @@ services:
             # password for the default admin account
             - ADMIN_PASSWORD=<supersecretpassword>
             - TBA_KEY=<tba_key>
-            # TBA_HMAC key
-            - TBA_HMAC=<tba_hmac_key>
+            # TBA webhook secret
+            - HOOK_SECRET=<tba_hook_secret>
         volumes:
             - ./template.yml:/template.yml
             - ./field.png:/field
